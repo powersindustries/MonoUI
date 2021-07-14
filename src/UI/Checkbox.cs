@@ -4,9 +4,7 @@ using System.Diagnostics;
 using System.Text;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace MonoUI
 {
@@ -24,7 +22,7 @@ namespace MonoUI
         // ---------------------------------------------------------------------
         public Checkbox()
         {
-            m_MainButton = new Button(new Vector2(), m_CheckboxWidth, m_CheckboxHeight, Color.White, "X", Color.Black);
+            m_MainButton = new Button(new Vector2(), m_CheckboxWidth, m_CheckboxHeight, Color.White, "X", Color.Black, Game1.m_Font);
         }
 
 
@@ -32,7 +30,7 @@ namespace MonoUI
         // ---------------------------------------------------------------------
         public Checkbox(Vector2 position)
         {
-            m_MainButton = new Button(position, m_CheckboxWidth, m_CheckboxHeight, Color.White, "X", Color.Black);
+            m_MainButton = new Button(position, m_CheckboxWidth, m_CheckboxHeight, Color.White, "X", Color.Black, Game1.m_Font);
         }
 
 
@@ -60,7 +58,7 @@ namespace MonoUI
 
         // ---------------------------------------------------------------------
         // ---------------------------------------------------------------------
-        public override  void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             m_MainButton.Draw(spriteBatch);
         }

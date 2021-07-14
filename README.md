@@ -11,6 +11,9 @@ Note: MonoUI is a constant work in progress. UI elements and functionality will 
 - Box
   - The Box class draws a static box on the screen.
   - The user is able to determine the size of the box and its color.
+- Circle
+  - The Circle class draws a static circle on the screen.
+  - The user is able to determine the diameter of the circle and its color.
 - Button
   - The Button class draws a button to the screen.
   - The user is able to check the state of the Button during the Update loop (mouse left clicked, mouse left held, mouse right clicked, mouse right held, and mouse hovering).
@@ -35,13 +38,13 @@ Note: MonoUI is a constant work in progress. UI elements and functionality will 
 
 ### Upcoming Features
 - All positions operate with percentages (Ex: position(50%, 50%) meaning middle of screen).
-- Word wrapping Textblocks have alignments (left align, center align, right align).
-- Add a circle primitive. It will operate like the Box type, but draw a cicle instead.
+- Word wrapping TextBlocks have alignments (left align, center align, right align).
+- ~~Add a circle primitive. It will operate like the Box type, but draw a cicle instead.~~
 - Add an image UI type. The image will have scaling and rotation.
 - Add a Dropdown/Combobox type allowing users to select an item from a dropdown box.
 - Add a Textbox type to allow users to enter text into a field.
 - Add a Radio button feature to the Checkbox class grouping together multiple Checkboxes.
-- Allow users to set fonts and font size of Textblock.
+- ~~Allow users to set fonts and font size of Textblock.~~
 
 This `Upcoming Features` list will continually expand and grow. Items will be crossed out and added as time goes on. If there are any features you would like to see, ping me and I will add them to the list.
 

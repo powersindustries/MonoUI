@@ -13,6 +13,7 @@ namespace MonoUI
     class Button : IUIBase
     {
         private SpriteFont m_Font;
+        private Texture2D m_DebugTexture;
 
         private Rectangle m_ButtonRectangle;
         private Rectangle m_BoarderRectangle;
@@ -31,23 +32,22 @@ namespace MonoUI
         private int m_ButtonWidth;
         private int m_ButtonHeight;
 
-        private bool m_Hovering     = false;
-        private bool m_LeftClicked  = false;
+        private bool m_Hovering = false;
+        private bool m_LeftClicked = false;
         private bool m_RightClicked = false;
-        private bool m_LeftHeld     = false;
-        private bool m_RightHeld    = false;
+        private bool m_LeftHeld = false;
+        private bool m_RightHeld = false;
 
 
         // ---------------------------------------------------------------------
         // ---------------------------------------------------------------------
-        public Button()
+        public Button(SpriteFont font)
         {
-            m_Font = Game1.m_Font;
-
-            m_ButtonWidth  = 10;
+            m_Font = font;
+            m_ButtonWidth = 10;
             m_ButtonHeight = 10;
 
-            m_ButtonRectangle  = new Rectangle(0, 0, m_ButtonWidth, m_ButtonHeight);
+            m_ButtonRectangle = new Rectangle(0, 0, m_ButtonWidth, m_ButtonHeight);
             m_BoarderRectangle = new Rectangle(0, 0, m_ButtonWidth, m_ButtonHeight);
 
             m_DefaultBackgroundColor = Color.Gray;
@@ -55,20 +55,23 @@ namespace MonoUI
             m_ClickColor = Color.White;
             m_HoverColor = Color.Black;
 
+            m_DebugTexture = new Texture2D(Game1.m_MainGraphicsDevice, 1, 1);
+            m_DebugTexture.SetData<Color>(new Color[] { Color.White });
+
             UpdateTextPosition();
         }
 
 
         // ---------------------------------------------------------------------
         // ---------------------------------------------------------------------
-        public Button(Vector2 position, int width, int height, Color backgroundColor)
+        public Button(Vector2 position, int width, int height, Color backgroundColor, SpriteFont font)
         {
-            m_Font = Game1.m_Font;
+            m_Font = font;
 
-            m_ButtonWidth  = width;
+            m_ButtonWidth = width;
             m_ButtonHeight = height;
 
-            m_ButtonRectangle  = new Rectangle((int)position.X, (int)position.Y, m_ButtonWidth, m_ButtonHeight);
+            m_ButtonRectangle = new Rectangle((int)position.X, (int)position.Y, m_ButtonWidth, m_ButtonHeight);
             m_BoarderRectangle = new Rectangle((int)position.X + m_BoarderRectangleOffset, (int)position.Y + m_BoarderRectangleOffset, width, height);
 
             m_DefaultBackgroundColor = backgroundColor;
@@ -76,29 +79,35 @@ namespace MonoUI
             m_ClickColor = Color.White;
             m_HoverColor = Color.Black;
 
+            m_DebugTexture = new Texture2D(Game1.m_MainGraphicsDevice, 1, 1);
+            m_DebugTexture.SetData<Color>(new Color[] { Color.White });
+
             UpdateTextPosition();
         }
 
 
         // ---------------------------------------------------------------------
         // ---------------------------------------------------------------------
-        public Button(Vector2 position, int width, int height, Color backgroundColor, string text, Color textColor)
+        public Button(Vector2 position, int width, int height, Color backgroundColor, string text, Color textColor, SpriteFont font)
         {
-            m_Font = Game1.m_Font;
+            m_Font = font;
 
-            m_ButtonText      = text;
+            m_ButtonText = text;
             m_ButtonTextColor = textColor;
 
-            m_ButtonWidth  = width;
+            m_ButtonWidth = width;
             m_ButtonHeight = height;
 
-            m_ButtonRectangle  = new Rectangle((int)position.X, (int)position.Y, m_ButtonWidth, m_ButtonHeight);
+            m_ButtonRectangle = new Rectangle((int)position.X, (int)position.Y, m_ButtonWidth, m_ButtonHeight);
             m_BoarderRectangle = new Rectangle((int)position.X + 2, (int)position.Y + 2, m_ButtonWidth, m_ButtonHeight);
 
             m_DefaultBackgroundColor = backgroundColor;
             m_CurrentBackgroundColor = m_DefaultBackgroundColor;
             m_ClickColor = Color.White;
             m_HoverColor = Color.Black;
+
+            m_DebugTexture = new Texture2D(Game1.m_MainGraphicsDevice, 1, 1);
+            m_DebugTexture.SetData<Color>(new Color[] { Color.White });
 
             UpdateTextPosition();
         }
@@ -114,18 +123,18 @@ namespace MonoUI
             // Set states
             if (m_ButtonRectangle.Contains(currentMousePoint))
             {
-                m_Hovering     = true;
-                m_LeftHeld     = mouseState.LeftButton  == ButtonState.Pressed;
-                m_RightHeld    = mouseState.RightButton == ButtonState.Pressed;
-                m_LeftClicked  = mouseState.LeftButton  == ButtonState.Pressed && Game1.m_MouseStateOld.LeftButton == ButtonState.Released;
+                m_Hovering = true;
+                m_LeftHeld = mouseState.LeftButton == ButtonState.Pressed;
+                m_RightHeld = mouseState.RightButton == ButtonState.Pressed;
+                m_LeftClicked = mouseState.LeftButton == ButtonState.Pressed && Game1.m_MouseStateOld.LeftButton == ButtonState.Released;
                 m_RightClicked = mouseState.RightButton == ButtonState.Pressed && Game1.m_MouseStateOld.RightButton == ButtonState.Released;
             }
             else
             {
-                m_Hovering     = false;
-                m_LeftHeld     = false;
-                m_RightHeld    = false;
-                m_LeftClicked  = false;
+                m_Hovering = false;
+                m_LeftHeld = false;
+                m_RightHeld = false;
+                m_LeftClicked = false;
                 m_RightClicked = false;
             }
 
@@ -147,10 +156,10 @@ namespace MonoUI
         {
             if (m_Hovering)
             {
-                spriteBatch.Draw(Game1.m_DebugTexture, m_BoarderRectangle, m_HoverColor);
+                spriteBatch.Draw(m_DebugTexture, m_BoarderRectangle, m_HoverColor);
             }
 
-            spriteBatch.Draw(Game1.m_DebugTexture, m_ButtonRectangle, m_CurrentBackgroundColor);
+            spriteBatch.Draw(m_DebugTexture, m_ButtonRectangle, m_CurrentBackgroundColor);
 
             if (m_Font != null && m_ButtonText != null)
             {
@@ -191,34 +200,6 @@ namespace MonoUI
 
         // ---------------------------------------------------------------------
         // ---------------------------------------------------------------------
-        private void UpdateTextPosition()
-        {
-            if (m_ButtonText == "" || m_ButtonText == null)
-            {
-                return;
-            }
-
-            Vector2 textSize = m_Font.MeasureString(m_ButtonText);
-
-            if (textSize.X > m_ButtonWidth)
-            {
-                SetWidth((int)textSize.X);
-            }
-
-            if (textSize.Y > m_ButtonHeight)
-            {
-                SetHeight((int)textSize.Y);
-            }
-
-            m_TextPosition = new Vector2(
-                m_ButtonRectangle.X + (( m_ButtonRectangle.Width - textSize.X) / 2),
-                m_ButtonRectangle.Y + (( m_ButtonRectangle.Height - textSize.Y) / 2)
-            );
-        }
-
-
-        // ---------------------------------------------------------------------
-        // ---------------------------------------------------------------------
         public void SetText(string text)
         {
             m_ButtonText = text;
@@ -241,7 +222,7 @@ namespace MonoUI
         {
             m_ButtonWidth = width;
 
-            m_ButtonRectangle.Width  = m_ButtonWidth;
+            m_ButtonRectangle.Width = m_ButtonWidth;
             m_BoarderRectangle.Width = m_ButtonWidth;
 
             UpdateTextPosition();
@@ -254,7 +235,7 @@ namespace MonoUI
         {
             m_ButtonHeight = height;
 
-            m_ButtonRectangle.Height  = m_ButtonHeight;
+            m_ButtonRectangle.Height = m_ButtonHeight;
             m_BoarderRectangle.Height = m_ButtonHeight;
 
             UpdateTextPosition();
@@ -282,6 +263,34 @@ namespace MonoUI
         public void SetHoverColor(Color hoverColor)
         {
             m_HoverColor = hoverColor;
+        }
+
+
+        // ---------------------------------------------------------------------
+        // ---------------------------------------------------------------------
+        private void UpdateTextPosition()
+        {
+            if (m_ButtonText == "" || m_ButtonText == null)
+            {
+                return;
+            }
+
+            Vector2 textSize = m_Font.MeasureString(m_ButtonText);
+
+            if (textSize.X > m_ButtonWidth)
+            {
+                SetWidth((int)textSize.X);
+            }
+
+            if (textSize.Y > m_ButtonHeight)
+            {
+                SetHeight((int)textSize.Y);
+            }
+
+            m_TextPosition = new Vector2(
+                m_ButtonRectangle.X + ((m_ButtonRectangle.Width - textSize.X) / 2),
+                m_ButtonRectangle.Y + ((m_ButtonRectangle.Height - textSize.Y) / 2)
+            );
         }
 
 

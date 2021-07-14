@@ -36,12 +36,12 @@ namespace MonoUI
         // ---------------------------------------------------------------------
         public UIManager()
         {
-            // Textblock Example - Main Header
+            // TextBlock Example - Main Header
             m_HeaderTextblock = new Textblock("Welcome to MonoUI");
             m_HeaderTextblock.SetPosition(new Vector2( (Game1.m_ScreenWidth/2) - (m_HeaderTextblock.GetWidth()/2), 10));
             m_HeaderTextblock.SetTextColor(Color.Black);
 
-            // Dividerline Example - Horizontal
+            // DividerLine Example - Horizontal
             m_HorizontalDividerLine = new DividerLine();
             m_HorizontalDividerLine.SetPosition(new Vector2(10, 40));
             m_HorizontalDividerLine.SetColor(Color.Black);
@@ -49,11 +49,11 @@ namespace MonoUI
             m_HorizontalDividerLine.SetThickness(2);
             m_HorizontalDividerLine.SetIsHorizontal(true);
 
-            // Textblock Example - Single line no wrapping
+            // TextBlock Example - Single line no wrapping
             m_SampleTextblock = new Textblock(new Vector2(25,50), "Here are some stand alone UI elements.");
             m_SampleTextblock.SetTextColor(Color.Black);
 
-            // Textblock Example - Multiline wrapping paragraph
+            // TextBlock Example - Multiline wrapping paragraph
             m_DescriptionTextblock = new Textblock();
             m_DescriptionTextblock.SetText("All of these UI elements on the left side of the screen have been hard coded into to a specific position. Sometimes thats what you need, so it is important to have this functionality.");
             m_DescriptionTextblock.SetTextColor(Color.Black);
@@ -61,17 +61,17 @@ namespace MonoUI
             m_DescriptionTextblock.SetWordWrapping(true, 100);
             m_DescriptionTextblock.SetWordWrappingWidth(250);
 
-            // Textblock Example - Single line no wrapping
+            // TextBlock Example - Single line no wrapping
             m_CheckboxLabelTextblock = new Textblock();
             m_CheckboxLabelTextblock.SetText("Below are some common UI elements.");
             m_CheckboxLabelTextblock.SetTextColor(Color.Black);
             m_CheckboxLabelTextblock.SetPosition(new Vector2(25, 200));
 
             //Button Example - Instantiate all button properties in constructor
-            m_StandAloneButton1 = new Button(new Vector2(25, 250), 200, 30, Color.DarkGray, "Button 1", Color.Black);
+            m_StandAloneButton1 = new Button(new Vector2(25, 250), 200, 30, Color.DarkGray, "Button 1", Color.Black, Game1.m_Font);
 
             // Button Example - Instantiate all button properties individually through methods
-            m_StandAloneButton2 = new Button();
+            m_StandAloneButton2 = new Button(Game1.m_Font);
             m_StandAloneButton2.SetText("Button 2");
             m_StandAloneButton2.SetPosition(new Vector2(25, 300));
             m_StandAloneButton2.SetWidth(200);
@@ -81,7 +81,7 @@ namespace MonoUI
             m_StandAloneButton2.SetClickedColor(Color.Purple);
             m_StandAloneButton2.SetHoverColor(Color.Blue);
 
-            // Checkbox Example
+            // CheckBox Example
             m_Checkbox = new Checkbox(new Vector2(25, 375));
             m_Checkbox.SetActive(true);
 
@@ -89,7 +89,7 @@ namespace MonoUI
             m_Box = new Box(new Rectangle(25, 425, 75, 75));
             m_Box.SetColor(Color.Gold);
 
-            // Textblock Example - Multiline wrapping paragraph
+            // TextBlock Example - Multiline wrapping paragraph
             m_WrappingTextblock = new Textblock();
             m_WrappingTextblock.SetText("This is a long paragraph full of words. Hopefully I spelled everything correctly. This is supposed to show that you can create word wrapping paragraphs instead of a single continuous line of text. Note that you can change pretty much all of the properties for each of the UI types. For instance, I have changed the color of the text in this Textblock to blue.");
             m_WrappingTextblock.SetTextColor(Color.Blue);
@@ -185,7 +185,7 @@ namespace MonoUI
             Checkbox horizontalCheckbox = new Checkbox();
             horizontalCheckbox.SetActive(true);
             
-            Button stackButton = new Button();
+            Button stackButton = new Button(Game1.m_Font);
             stackButton.SetText("Stack within Stack within Stack");
             stackButton.SetWidth(300);
             stackButton.SetHeight(25);
@@ -200,12 +200,17 @@ namespace MonoUI
             internalStack2.AddChild(horizontalCheckbox);
             internalStack2.AddChild(stackButton);
 
+            Circle circle = new Circle();
+            circle.SetDiameter(25);
+            circle.SetColor(Color.Blue);
+
             Stack internalStack1 = new Stack();
             internalStack1.SetHorizontal(false);
             internalStack1.SetPadding(50);
             internalStack1.AddChild(secondParagraph);
             internalStack1.AddChild(thirdParagraph);
             internalStack1.AddChild(internalStack2);
+            internalStack1.AddChild(circle);
 
             m_StackWithinStackExample = new Stack();
             m_StackWithinStackExample.SetHorizontal(true);
@@ -213,6 +218,8 @@ namespace MonoUI
             m_StackWithinStackExample.SetPadding(10);
             m_StackWithinStackExample.AddChild(firstParagraph);
             m_StackWithinStackExample.AddChild(internalStack1);
+            m_StackWithinStackExample.AddChild(circle);
+
         }
 
 

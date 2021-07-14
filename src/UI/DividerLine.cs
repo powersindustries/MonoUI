@@ -13,6 +13,8 @@ namespace MonoUI
     {
         private Rectangle m_LineRectangle;
 
+        private Texture2D m_DebugTexture;
+
         private Color m_LineColor;
 
         private int m_Length;
@@ -29,10 +31,29 @@ namespace MonoUI
 
             m_LineColor = Color.White;
 
-            m_Length    = 0;
+            m_Length = 0;
             m_Thickness = 0;
 
             m_Horizontal = true;
+
+            m_DebugTexture = Game1.m_DebugTexture;
+        }
+
+
+        // ---------------------------------------------------------------------
+        // ---------------------------------------------------------------------
+        public DividerLine(Texture2D debugTexture)
+        {
+            m_LineRectangle = new Rectangle();
+
+            m_LineColor = Color.White;
+
+            m_Length = 0;
+            m_Thickness = 0;
+
+            m_Horizontal = true;
+
+            m_DebugTexture = debugTexture;
         }
 
 
@@ -44,10 +65,13 @@ namespace MonoUI
 
             m_LineColor = color;
 
-            m_Length    = length;
+            m_Length = length;
             m_Thickness = thickness;
 
             m_Horizontal = isHorizontal;
+
+            m_DebugTexture = new Texture2D(Game1.m_MainGraphicsDevice, 1, 1);
+            m_DebugTexture.SetData<Color>(new Color[] { Color.White });
         }
 
 
@@ -62,7 +86,7 @@ namespace MonoUI
         // ---------------------------------------------------------------------
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Game1.m_DebugTexture, m_LineRectangle, m_LineColor);
+            spriteBatch.Draw(m_DebugTexture, m_LineRectangle, m_LineColor);
         }
 
 
@@ -95,11 +119,11 @@ namespace MonoUI
         // ---------------------------------------------------------------------
         private void RotateLine()
         {
-            int newWidth  = m_LineRectangle.Height;
+            int newWidth = m_LineRectangle.Height;
             int newHeight = m_LineRectangle.Width;
 
             m_LineRectangle.Height = newHeight;
-            m_LineRectangle.Width  = newWidth;
+            m_LineRectangle.Width = newWidth;
         }
 
 
@@ -108,7 +132,7 @@ namespace MonoUI
         public void SetLength(int length)
         {
             m_Length = length;
-            
+
             if (m_Horizontal)
             {
                 m_LineRectangle.Width = m_Length;
@@ -125,7 +149,7 @@ namespace MonoUI
         public void SetThickness(int thickness)
         {
             m_Thickness = thickness;
-            
+
             if (m_Horizontal)
             {
                 m_LineRectangle.Height = m_Thickness;

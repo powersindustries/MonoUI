@@ -40,9 +40,28 @@ namespace MonoUI
 
             m_WordWrappingLines = new List<string>();
 
-            m_TextWidth       = 0;
-            m_TextHeight      = 0;
-            m_WordLength      = 0;
+            m_TextWidth = 0;
+            m_TextHeight = 0;
+            m_WordLength = 0;
+            m_CharacterLength = 0;
+        }
+
+
+        // ---------------------------------------------------------------------
+        // ---------------------------------------------------------------------
+        public Textblock(SpriteFont font)
+        {
+            m_Font = font;
+
+            m_Text = "";
+
+            m_TextColor = Color.White;
+
+            m_WordWrappingLines = new List<string>();
+
+            m_TextWidth = 0;
+            m_TextHeight = 0;
+            m_WordLength = 0;
             m_CharacterLength = 0;
         }
 

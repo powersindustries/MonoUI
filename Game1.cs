@@ -6,7 +6,7 @@ namespace MonoUI
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager m_Graphics;
+        static private GraphicsDeviceManager m_Graphics;
         private SpriteBatch m_SpriteBatch;
         private UIManager m_UIManager;
 
